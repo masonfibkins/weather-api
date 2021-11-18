@@ -14,7 +14,20 @@
       .then(function (data) {
         console.log(data);
         updateWeather(data);
+        var lat = data.coord.lat;
+        var lon = data.coord.lon;
+            //url to get lat and lon
+            fetch('https://api.openweathermap.org/data/2.5/uvi?appid=87875bf0663cfa807f2fc62d46ca41e1&lon=' + lon + '&lat=' + lat)
+            .then(function (response2) {
+              return response2.json();
+            })
+            .then(function (data2) {
+              console.log(data2);
+              document.getElementById('uv').innerHTML = "UV: " + data2.value;
+            })
       });
+      
+
  }
 
  function updateWeather( d ) {
