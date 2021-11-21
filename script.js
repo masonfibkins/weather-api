@@ -7,7 +7,8 @@ var APIKEY = '87875bf0663cfa807f2fc62d46ca41e1';
         return response.json();
       })
       .then(function (data) {
-        updateWeather(data);  
+        updateWeather(data);
+        storeWeather(userInput);
       });
  }
 
@@ -22,6 +23,9 @@ var APIKEY = '87875bf0663cfa807f2fc62d46ca41e1';
   document.getElementById('humid').innerHTML = "Humidity: " + d.main.humidity + "%";
   updateUV(lon, lat);
   getForecast(lon, lat);
+  
+  storeWeather(d);
+  storeCityList(d);
 }
 
 
@@ -52,9 +56,32 @@ function updateForecast(d){
 for(var i = 0; i < 6; i++){
 var fahrenheit = Math.abs((parseFloat((d.daily[i].temp.day)-273.15)*1.8)+32); 
 var temp = fahrenheit.toFixed(2);
-  console.log(temp);
+// console.log(d);
+document.getElementById('d-temp').innerHTML = "Temp: " + temp + '&degF';
+document.getElementById('d-wind').innerHTML = "Wind: " + d.daily[i].wind_speed + " MPH";
+document.getElementById('d-humid').innerHTML = "Humidity: " + d.daily[i].humidity + "%";
+
 }
 }
+
+function storeWeather(data){
+  var dataList = [];
+  dataList = JSON.parse(localStorage.getItem('session')) || [];
+  dataList.push(data);
+  localStorage.setItem('session', JSON.stringify(dataList));
+}
+
+function storeCityList(data){
+  var cityList = [];
+  cityList = JSON.parse(localStorage.getItem('cities')) || [];
+  cityList.push(data.name);
+  localStorage.setItem('cities', JSON.stringify(cityList));
+}
+
+
+
+
+
 
 //event listener to get input from submit button
 document.querySelector("#submit").addEventListener("click", function (event) {
@@ -63,3 +90,4 @@ document.querySelector("#submit").addEventListener("click", function (event) {
   var userInput = city.value;
   getWeather(userInput);
 });
+
