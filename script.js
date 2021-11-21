@@ -17,10 +17,10 @@ var APIKEY = '87875bf0663cfa807f2fc62d46ca41e1';
   var lon = d.coord.lon;
 	var fahrenheit = Math.abs(((parseFloat(d.main.temp)-273.15)*1.8)+32); 
   var temp = fahrenheit.toFixed(2);
-  document.getElementById('name').innerHTML = d.name;
-	document.getElementById('temp').innerHTML = "Temp: " + temp + '&degF';
-  document.getElementById('wind').innerHTML = "Wind: " + d.wind.speed + " MPH";
-  document.getElementById('humid').innerHTML = "Humidity: " + d.main.humidity + "%";
+  document.getElementById('currentCity').innerHTML = d.name;
+	document.getElementById('temp').innerHTML = "Temperature: " + temp;
+  document.getElementById('wind').innerHTML = "Wind: " + d.wind.speed;
+  document.getElementById('humid').innerHTML = "Humidity: " + d.main.humidity;
   updateUV(lon, lat);
   getForecast(lon, lat);
   
@@ -36,12 +36,12 @@ function updateUV(lon, lat){
       return response.json();
      })
      .then(function (data) {
-     document.getElementById('uv').innerHTML = "UV: " + data.value;
+     document.getElementById('todaysUVIndex').innerHTML = "UV: " + data.value;
      });
 }
 
 function getForecast(lon, lat){
-  let forecastURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon +'&exclude=hourly&appid=' + APIKEY;
+  var forecastURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon +'&exclude=hourly&appid=' + APIKEY;
 
   fetch(forecastURL)
   .then(function (response) {
@@ -57,9 +57,35 @@ for(var i = 0; i < 6; i++){
 var fahrenheit = Math.abs((parseFloat((d.daily[i].temp.day)-273.15)*1.8)+32); 
 var temp = fahrenheit.toFixed(2);
 // console.log(d);
-document.getElementById('d-temp').innerHTML = "Temp: " + temp + '&degF';
-document.getElementById('d-wind').innerHTML = "Wind: " + d.daily[i].wind_speed + " MPH";
-document.getElementById('d-humid').innerHTML = "Humidity: " + d.daily[i].humidity + "%";
+// document.getElementById('d-temp').innerHTML = "Temp: " + temp + '&degF';
+// document.getElementById('d-wind').innerHTML = "Wind: " + d.daily[i].wind_speed + " MPH";
+// document.getElementById('d-humid').innerHTML = "Humidity: " + d.daily[i].humidity + "%";
+
+var cardDiv = document.createElement("div");
+cardDiv.setAttribute("class", "card forecast-card mx-2 shadow");
+var cardBodyDiv = document.createElement("div");
+cardBodyDiv.setAttribute("class", "card-body");
+var dateDiv = document.createElement("div");
+dateDiv.setAttribute("class", "forecast-date");
+
+var pTemp = document.createElement("p");
+const newContent = document.createTextNode("Temp: " + temp + " °F");
+pTemp.appendChild(newContent);
+
+var wind = d.daily[i].wind_speed;
+var pWind = document.createElement("p");
+const newWind = document.createTextNode("Wind: " + wind + " MPH");
+pWind.appendChild(newWind);
+
+
+var humidity = d.daily[i].humidity;
+var pHumid = document.createElement("p");
+const newHumidity = document.createTextNode("Humidity: " + humidity + "%")
+pHumid.appendChild(newHumidity);
+
+cardBodyDiv.append(pTemp, pWind, pHumid);
+cardDiv.append(cardBodyDiv);
+document.getElementById("forecast").appendChild(cardDiv);
 
 }
 }
@@ -76,6 +102,16 @@ function storeCityList(data){
   cityList = JSON.parse(localStorage.getItem('cities')) || [];
   cityList.push(data.name);
   localStorage.setItem('cities', JSON.stringify(cityList));
+  // console.log(cityList);
+  // citySearchList(data);
+}
+
+function citySearchList(){
+  let searchHistory = localStorage;
+  for(let i = 0; i < 9; i++){
+    console.log(searchHistory[i]);
+  }
+   
 }
 
 
@@ -83,11 +119,14 @@ function storeCityList(data){
 
 
 
+
+
 //event listener to get input from submit button
-document.querySelector("#submit").addEventListener("click", function (event) {
+document.querySelector("#citySearchBtn").addEventListener("click", function (event) {
   event.preventDefault();
-  var city = document.getElementById("inputCity");
+  var city = document.getElementById("citySearchText");
   var userInput = city.value;
   getWeather(userInput);
+  // citySearchList();
 });
 
