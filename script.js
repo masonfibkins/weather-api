@@ -3,10 +3,7 @@
 //humidity
 //UV
 
- function cityInput(event) {
-  event.preventDefault();
-  var city = document.getElementById("inputCity");
-  var userInput = city.value;
+ function getWeather(userInput) {
     fetch('https://api.openweathermap.org/data/2.5/weather?q=' + userInput + '&appid=87875bf0663cfa807f2fc62d46ca41e1')
       .then(function (response) {
         return response.json();
@@ -39,6 +36,10 @@
   document.getElementById('humid').innerHTML = "Humidity: " + d.main.humidity + "%";
 }
 
- document.querySelector("#submit").addEventListener("click", cityInput);
-
-//all user inputs saved in local storage
+//event listener to get input from submit button
+document.querySelector("#submit").addEventListener("click", function (event) {
+  event.preventDefault();
+  var city = document.getElementById("inputCity");
+  var userInput = city.value;
+  getWeather(userInput);
+});
