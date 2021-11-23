@@ -7,6 +7,7 @@ $(document).ready(function () {
       var searchTerm = $("#search-value").val();
       $("#search-value").val("");
       weatherFunction(searchTerm);
+      latLon(searchTerm);
   });
 
   //function to call weather api
@@ -23,13 +24,12 @@ $(document).ready(function () {
       var humidityData = data.main.humidity;
       var lon = data.coord.lon;
       var lat = data.coord.lat;
-      weatherForecast(lat, lon);
       var title = $("<h3>").addClass("card-title").text(data.name + " (" + new Date().toLocaleDateString() + ")");
       
       var card = $("<div>").addClass("card");
       var cardBody = $("<div").addClass("card-body");
       var temp = $("<p>").addClass("Temperature: " + tempData + " °F");
-      var wind = $("<p>").addclass("Wind: " + windData + " MPH");
+      var wind = $("<p>").addClass("Wind: " + windData + " MPH");
       var humidity = $("<p>").addClass("Humidity: " + humidityData + " %");
       //gets uv index using lat and lon
       $.ajax({
@@ -62,6 +62,16 @@ $(document).ready(function () {
     }); //end of .then for writing weather data
   } //end of weatherFunction
 
+  function latLon(searchTerm){
+    $.ajax({
+      type: "GET",
+      url: "https://api.openweathermap.org/data/2.5/weather?q=" + searchTerm + "&units=imperial&appid=" + APIKEY,
+    }).then(function(data){
+      var lon = data.coord.lon;
+      var lat = data.coord.lat;
+      weatherForecast(lat, lon);
+    });
+  }
   //function to get 5 day weather forecast
   function weatherForecast(lat, lon){
     $.ajax({
@@ -81,8 +91,8 @@ $(document).ready(function () {
 
         var titleForecast = $("<h3>").addClass("card-title").text(date);
         
-        var cardForecast = $("<div>").addClass("card")
-        var colForecast = $("<div>").addClass("card bg-primary");
+        var cardForecast = $("<div>").addClass("card bg-primary")
+        var colForecast = $("<div>").addClass("card");
         var cardBodyForecast = $("<div>").addClass("card-body p-2");
         var tempForecast = $("<div>").addClass("card-text").text("Temperature: " + temp);
         var windForecast = $("<div>").addClass("card-text").text("Wind: " + wind);
