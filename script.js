@@ -10,6 +10,14 @@ $(document).ready(function () {
       weatherForecast(searchTerm);
   });
 
+  $(document).on('keypress', function(e) {
+    if(e.keyCode==13){
+         $("#search-button").trigger("click");
+     }
+});
+
+
+
   var history = JSON.parse(localStorage.getItem("history")) || [];//grab item from local storage, if any.
 
   if (history.length > 0) {//sets history array search to correct length.
