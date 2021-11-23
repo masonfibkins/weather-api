@@ -110,8 +110,12 @@ $(document).ready(function () {
       type: "GET",
       url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly&units=imperial&appid=" + APIKEY,
     }).then(function(data2){
+      console.log(data2);
       $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast:</h4>").append("<div class=\"row\">");
       for(var i = 1; i < 6; i++){
+
+        var img = data2.daily[i].weather[0].icon;
+
         var utcSeconds = data2.daily[i].dt;
         var d = new Date(0); //0 is the key, that sets the date to the epoch
         d.setUTCSeconds(utcSeconds);
@@ -122,6 +126,8 @@ $(document).ready(function () {
         var humidity = data2.daily[i].humidity;
 
         var titleForecast = $("<h3>").addClass("card-title").text(date);
+        var imgForecast = $("<img>").attr("src", "https://openweathermap.org/img/w/" + img + ".png");
+
         
         var colForecast = $("<div>").addClass("col-md-2");
         var cardForecast = $("<div>").addClass("card bg-primary text-white")
@@ -130,7 +136,7 @@ $(document).ready(function () {
         var windForecast = $("<div>").addClass("card-text").text("Wind: " + wind);
         var humidityForecast = $("<div>").addClass("card-text").text("Humidity: " + humidity);
 
-        colForecast.append(cardForecast.append(cardBodyForecast.append(titleForecast, tempForecast, windForecast, humidityForecast)));
+        colForecast.append(cardForecast.append(cardBodyForecast.append(imgForecast, titleForecast, tempForecast, windForecast, humidityForecast)));
         $("#forecast .row").append(colForecast);
       }
     });  
