@@ -119,7 +119,7 @@ $(document).ready(function () {
       url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly&units=imperial&appid=" + APIKEY,
     }).then(function(data2){
       console.log(data2);
-      $("#forecast").html("<h4 class=\"mt-4\">5-Day Forecast:</h4>").append("<div class=\"row\">");
+      $("#forecast").html("<h4 class=\"mt-4\"></h4>").append("<div class=\"row\">");
       
       for(var i = 1; i < 6; i++){
 
@@ -134,13 +134,14 @@ $(document).ready(function () {
         var wind = data2.daily[i].wind_speed;  
         var humidity = data2.daily[i].humidity;
 
+        
         var titleForecast = $("<h5>").addClass("card-title").text(date);
         var imgForecast = $("<img>").attr("src", "https://openweathermap.org/img/w/" + img + ".png");
 
         
-        var colForecast = $("<div>").addClass("col-md-3");
+        var colForecast = $("<div>").addClass("col-sm-2.5");
         var cardForecast = $("<div>").addClass("card bg-primary text-white")
-        var cardBodyForecast = $("<div>").addClass("card-body p-2");
+        var cardBodyForecast = $("<div>").addClass("card-body p-3");
         var tempForecast = $("<div>").addClass("card-text").text("Temp: " + temp);
         var windForecast = $("<div>").addClass("card-text").text("Wind: " + wind);
         var humidityForecast = $("<div>").addClass("card-text").text("Humidity: " + humidity);
