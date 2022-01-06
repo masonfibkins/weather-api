@@ -140,7 +140,7 @@ $(document).ready(function () {
 
         
         var colForecast = $("<div>").addClass("col-sm-2.5");
-        var cardForecast = $("<div>").addClass("card bg-primary text-white")
+        var cardForecast = $("<div>").addClass("card bg-dark text-white")
         var cardBodyForecast = $("<div>").addClass("card-body p-3");
         var tempForecast = $("<div>").addClass("card-text").text("Temp: " + temp);
         var windForecast = $("<div>").addClass("card-text").text("Wind: " + wind);

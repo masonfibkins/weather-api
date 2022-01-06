@@ -2,15 +2,43 @@
     margin-left: 10px;
 }
 
-#myHeader {
-    background-color: #FEE140;
-    background-image: linear-gradient(90deg, #FEE140 0%, #FA709A 100%);
+#today{
+    background-color: transparent;
+    border-color: red;
+}
+
+body {
+    background: #457fca;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #5691c8, #457fca);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #5691c8, #457fca); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    margin-left: 100px;
+    font-family: 'Chivo', sans-serif;
+    font-weight: 400;
+    
+}
+
+h1{
+    font-family: 'Chivo', sans-serif;
+    font-weight: 900;
 }
 
 h3{
-    margin-top: 30px;
-    margin-left: 10px;
+    font-family: 'Chivo', sans-serif;
+    font-weight: 900;
+   
 }
+
+.card{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.col-lg-2{
+    margin-left: 200px;
+}
+
+
+
 
 
 
